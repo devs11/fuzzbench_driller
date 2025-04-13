@@ -41,3 +41,35 @@ RUN cd /afl && \
     make -C utils/aflpp_driver && \
     cp utils/aflpp_driver/libAFLQemuDriver.a /libAFLDriver.a && \
     cp utils/aflpp_driver/aflpp_qemu_driver_hook.so /
+
+# install REDIS for CFTracer
+RUN apt-get update && \
+    apt-get install -y \
+    redis-server
+
+RUN pip3 install tomli
+
+
+# install symQEMU and checkout commit https://github.com/eurecom-s3/symqemu/commit/e09c3d597e3ac9ed7b7820971999773449eb896b
+RUN git clone -b master https://github.com/eurecom-s3/symqemu.git && \
+    cd symqemu && \
+    # git checkout e09c3d597e3ac9ed7b7820971999773449eb896b || true && \
+    git submodule update --init --recursive subprojects/symcc-rt && \
+    mkdir build && cd build && \
+    ../configure                       \
+    --audio-drv-list=                  \
+    --disable-sdl                      \
+    --disable-gtk                      \
+    --disable-vte                      \
+    --disable-opengl                   \
+    --disable-virglrenderer            \
+    --disable-werror                   \
+    --target-list=x86_64-linux-user && \ 
+    make -j && \
+    cd ../..
+
+# fetch CFTracer for fuzzbench
+RUN git clone -b fuzzbench https://git.breadslice.de/sim/cftracer.git && \
+    cd cftracer && \
+    # git checkout TODO-tag || true
+    pip install -r requirements.txt
