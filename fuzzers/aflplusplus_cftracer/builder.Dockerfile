@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# FROM base-image-jammy
-
 ARG parent_image
 FROM $parent_image
 
@@ -45,54 +43,7 @@ RUN cd /afl && \
     cp utils/aflpp_driver/aflpp_qemu_driver_hook.so /
 
 # fetch CFTracer for fuzzbench
-RUN git clone -b fuzzbench https://git.breadslice.de/sim/cftracer.git && \
+RUN git clone -c http.sslVerify=false -b fuzzbench https://git.breadslice.de/sim/cftracer.git && \
     cd cftracer && \
     # git checkout TODO-tag || true
-    pip install -r requirements.txt
-
-# install SymQEMU (template from https://github.com/eurecom-s3/symqemu/blob/master/Dockerfile)
-
-RUN apt update && apt install -y \
-    ninja-build \
-    libglib2.0-dev \
-    llvm \
-    git \
-    python3 \
-    python3-pip \
-    cmake \
-    wget \
-    lsb-release \
-    software-properties-common \
-    gnupg \
-    z3 \
-    libz3-dev \
-    libz3-dev \
-    libzstd-dev \
-    colordiff \
-    xxd \
-    wdiff
-
-RUN pip install --user meson tomli
-ARG LLVM_VERSION=15
-RUN apt install -y llvm-${LLVM_VERSION} clang-${LLVM_VERSION}
-
-RUN git clone -b master https://github.com/eurecom-s3/symqemu.git && \
-    cd symqemu && \
-    # git checkout e09c3d597e3ac9ed7b7820971999773449eb896b || true && \
-    git submodule update --init --recursive subprojects/symcc-rt && \
-    mkdir build && cd build && \
-    ../configure                                                    \
-    --audio-drv-list=                                         \
-    --disable-sdl                                             \
-    --disable-gtk                                             \
-    --disable-vte                                             \
-    --disable-opengl                                          \
-    --disable-virglrenderer                                   \
-    --target-list=x86_64-linux-user,riscv64-linux-user        \
-    --enable-debug                                            \
-    --enable-debug-tcg                                        \
-    --symcc-rt-llvm-version="$LLVM_VERSION"                   \
-    --disable-werror && \
-    make -j && \
-    cd ../..
-
+    pip3 install -r requirements.txt
