@@ -21,3 +21,15 @@ ENV PATH="$PATH:/out"
 ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
 ENV AFL_TESTCACHE_SIZE=2
+
+RUN apt-get update && \
+	apt-get install -y \
+	git
+
+# fetch CFTracer for fuzzbench
+RUN cd / && \
+	git clone -c http.sslVerify=false -b fuzzbench https://git.breadslice.de/sim/cftracer.git && \
+	cd cftracer && \
+	# git checkout TODO-tag || true
+	pip3 install -r requirements.txt && \
+	pwd && ls -la && ls -la /

@@ -13,8 +13,9 @@
 # limitations under the License.
 """Integration code for AFLplusplus fuzzer."""
 
-import os
 import subprocess
+import time
+import os
 
 from fuzzers.aflplusplus import fuzzer as aflplusplus_fuzzer
 
@@ -23,12 +24,17 @@ def build():
     """Build benchmark."""
     aflplusplus_fuzzer.build('qemu')
 
+
+
 def _launch_cce(target_binary):
+    
     log_path = os.path.join("/tmp/experiment-data/", "cce.log")
 
-    cmd = ["python", "--input_file", target_binary]
-    with open(log_path, "w") as log_fh:
-        return subprocess.Popen(cmd, stdout=log_fh, stderr=log_fh, close_fds=True)
+    cmd = ["python", "/cftracer/control_engine/dispatch_task.py", "--redis-host", "redis", "--input-file", target_binary]
+    subprocess.Popen(["ls", "-l", "/"], close_fds=True)
+    return subprocess.Popen(cmd, close_fds=True)
+    # with open(log_path, "w") as log_fh:
+    #     return subprocess.Popen(cmd, stdout=log_fh, stderr=log_fh, close_fds=True)
     
 def _launch_cfe(target_binary):
     log_path = os.path.join("/tmp/experiment-data/", "cfe.log")
@@ -36,9 +42,10 @@ def _launch_cfe(target_binary):
     with open(TAKS_NAME_FILE, "r") as f:
         task_name = f.read()
 
-    cmd = ["python", "--input_file", target_binary, "--external-fuzzer", "--task", task_name]
-    with open(log_path, "w") as log_fh:
-        return subprocess.Popen(cmd, stdout=log_fh, stderr=log_fh, close_fds=True)
+    cmd = ["python", "/cftracer/fuzzing_engine/launch_fuzzer.py", "--input-file", target_binary, "--output-dir", "/out/corpus", "--corpus-dir", "/out/seeds", "--external-fuzzer", "--redis-host", "redis", "--task", task_name]
+    return subprocess.Popen(cmd, close_fds=True)
+    # with open(log_path, "w") as log_fh:
+    #     return subprocess.Popen(cmd, stdout=log_fh, stderr=log_fh, close_fds=True)
     
 
 def fuzz(input_corpus, output_corpus, target_binary):
@@ -60,11 +67,18 @@ def fuzz(input_corpus, output_corpus, target_binary):
     os.environ['AFL_ENTRYPOINT'] = target_func
     os.environ['AFL_QEMU_PERSISTENT_CNT'] = '1000000'
     os.environ['AFL_QEMU_DRIVER_NO_HOOK'] = '1'
-    print("BAUM")
+
+    os.mkdir("/tmp/experiment-data")
+
+    print("dispatching cce...")
+    _launch_cce(target_binary=target_binary)
+    time.sleep(5)
+    print("dispatching cfe...")
+    _launch_cfe(target_binary=target_binary)
+
+    print("dispatching fuzzer....")
     aflplusplus_fuzzer.fuzz(input_corpus,
                             output_corpus,
                             target_binary,
                             flags=flags)
     print("BAUM2")
-    _launch_cce(target_binary=target_binary)
-    _launch_cfe(target_binary=target_binary)

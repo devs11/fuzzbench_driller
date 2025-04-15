@@ -47,4 +47,5 @@ RUN cd / && \
     git clone -c http.sslVerify=false -b fuzzbench https://git.breadslice.de/sim/cftracer.git && \
     cd cftracer && \
     # git checkout TODO-tag || true
-    pip3 install -r requirements.txt
+    pip3 install -r requirements.txt & \
+    pwd && ls -la && ls -la /
