@@ -23,6 +23,23 @@ def build():
     """Build benchmark."""
     aflplusplus_fuzzer.build('qemu')
 
+def _launch_cce(target_binary):
+    log_path = os.path.join("/tmp/experiment-data/", "cce.log")
+
+    cmd = ["python", "--input_file", target_binary]
+    with open(log_path, "w") as log_fh:
+        return subprocess.Popen(cmd, stdout=log_fh, stderr=log_fh, close_fds=True)
+    
+def _launch_cfe(target_binary):
+    log_path = os.path.join("/tmp/experiment-data/", "cfe.log")
+    TAKS_NAME_FILE = "/out/cftracer_task"
+    with open(TAKS_NAME_FILE, "r") as f:
+        task_name = f.read()
+
+    cmd = ["python", "--input_file", target_binary, "--external-fuzzer", "--task", task_name]
+    with open(log_path, "w") as log_fh:
+        return subprocess.Popen(cmd, stdout=log_fh, stderr=log_fh, close_fds=True)
+    
 
 def fuzz(input_corpus, output_corpus, target_binary):
     """Run fuzzer."""
@@ -47,3 +64,6 @@ def fuzz(input_corpus, output_corpus, target_binary):
                             output_corpus,
                             target_binary,
                             flags=flags)
+
+    _launch_cce(target_binary=target_binary)
+    _launch_cfe(target_binary=target_binary)
