@@ -43,7 +43,8 @@ RUN cd /afl && \
     cp utils/aflpp_driver/aflpp_qemu_driver_hook.so /
 
 # fetch CFTracer for fuzzbench
-RUN git clone -c http.sslVerify=false -b fuzzbench https://git.breadslice.de/sim/cftracer.git && \
+RUN cd / && \
+    git clone -c http.sslVerify=false -b fuzzbench https://git.breadslice.de/sim/cftracer.git && \
     cd cftracer && \
     # git checkout TODO-tag || true
     pip3 install -r requirements.txt
