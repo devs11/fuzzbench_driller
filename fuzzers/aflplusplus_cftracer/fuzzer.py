@@ -64,6 +64,6 @@ def fuzz(input_corpus, output_corpus, target_binary):
                             output_corpus,
                             target_binary,
                             flags=flags)
-
+    print("TESTST")
     _launch_cce(target_binary=target_binary)
     _launch_cfe(target_binary=target_binary)
