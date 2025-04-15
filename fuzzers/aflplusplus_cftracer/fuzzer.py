@@ -60,10 +60,11 @@ def fuzz(input_corpus, output_corpus, target_binary):
     os.environ['AFL_ENTRYPOINT'] = target_func
     os.environ['AFL_QEMU_PERSISTENT_CNT'] = '1000000'
     os.environ['AFL_QEMU_DRIVER_NO_HOOK'] = '1'
+    print("BAUM")
     aflplusplus_fuzzer.fuzz(input_corpus,
                             output_corpus,
                             target_binary,
                             flags=flags)
-    print("BAUM")
+    print("BAUM2")
     _launch_cce(target_binary=target_binary)
     _launch_cfe(target_binary=target_binary)
