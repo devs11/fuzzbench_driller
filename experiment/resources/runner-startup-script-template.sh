@@ -56,8 +56,8 @@ docker run \
 -e FUZZ_TARGET={{fuzz_target}} \
 -e PRIVATE={{private}} \
 -e LOCAL_EXPERIMENT={{local_experiment}} \
-{% if not local_experiment %}--name=runner-container {% endif %}\
-{% if fuzzer == 'aflplusplus_cftracer' %}--network=redis_transfer {% endif %}\  # add redis network
+{% if not local_experiment %}--name=runner-container {% endif %} \
+{% if fuzzer == 'aflplusplus_cftracer' %}--network=redis_transfer {% endif %} \
 --shm-size=2g \
 --cap-add SYS_NICE --cap-add SYS_PTRACE \
 --security-opt seccomp=unconfined \
