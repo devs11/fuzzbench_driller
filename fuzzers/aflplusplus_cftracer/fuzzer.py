@@ -68,7 +68,7 @@ def fuzz(input_corpus, output_corpus, target_binary):
     os.environ['AFL_QEMU_PERSISTENT_CNT'] = '1000000'
     os.environ['AFL_QEMU_DRIVER_NO_HOOK'] = '1'
 
-    os.mkdir("/tmp/experiment-data")
+    # os.mkdir("/tmp/experiment-data")
 
     print("dispatching cce...")
     _launch_cce(target_binary=target_binary)
