@@ -32,4 +32,8 @@ RUN cd / && \
 	cd cftracer && \
 	# git checkout TODO-tag || true
 	pip3 install -r requirements.txt && \
-	pwd && ls -la && ls -la / && echo runner1
+	pwd && ls -la && ls -la / && ls -la /out && ls -la /out/seeds && ls -la /out/corpus
+
+RUN rm -rf /out/seeds* && rm -rf /out/corpus/* && \
+	cp /src/benchmarks/libpng_libpng_read_fuzzer/seeds/seed.png /out/seeds/ && \
+	ls -la /out && ls -la /out/seeds && ls -la /out/corpus
