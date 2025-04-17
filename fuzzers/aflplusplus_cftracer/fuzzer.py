@@ -30,7 +30,8 @@ def _launch_cce(target_binary):
     
     log_path = os.path.join("/tmp/experiment-data/", "cce.log")
 
-    cmd = ["python", "/cftracer/control_engine/dispatch_task.py", "--redis-host", "redis", "--input-file", target_binary]
+    cmd = ["python", "/cftracer/control_engine/dispatch_task.py", "--redis-host", "redis", "--stdin-input", target_binary]
+    # cmd = ["python", "/cftracer/control_engine/dispatch_task.py", "--redis-host", "redis", "--input-file", target_binary]
     subprocess.Popen(["ls", "-l", "/"], close_fds=True)
     return subprocess.Popen(cmd, close_fds=True)
     # with open(log_path, "w") as log_fh:

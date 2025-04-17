@@ -32,4 +32,4 @@ RUN cd / && \
 	cd cftracer && \
 	# git checkout TODO-tag || true
 	pip3 install -r requirements.txt && \
-	pwd && ls -la && ls -la /
+	pwd && ls -la && ls -la / && echo runner1
