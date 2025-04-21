@@ -22,4 +22,4 @@ ENV AFL_SKIP_CPUFREQ=1
 ENV AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
 ENV AFL_TESTCACHE_SIZE=2
 
-RUN echo force_rebuild_again2
+RUN echo force_rebuild_again22

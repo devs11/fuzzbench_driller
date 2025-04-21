@@ -69,10 +69,11 @@ def fuzz(input_corpus, output_corpus, target_binary):
     os.environ['AFL_QEMU_PERSISTENT_CNT'] = '1000000'
     os.environ['AFL_QEMU_DRIVER_NO_HOOK'] = '1'
 
-    os.system("rm -rf /out/seeds/*")
-    os.system("rm -rf /out/corpus/*")
-    os.system("cp /src/benchmarks/libpng_libpng_read_fuzzer/seeds/seed.png /out/seeds/")
-    os.system("ls -la /out && ls -la /out/seeds && ls -la /out/corpus")
+    # libpng alt corpus
+    # os.system("rm -rf /out/seeds/*")
+    # os.system("rm -rf /out/corpus/*")
+    # os.system("cp /src/benchmarks/libpng_libpng_read_fuzzer/seeds/seed.png /out/seeds/")
+    # os.system("ls -la /out && ls -la /out/seeds && ls -la /out/corpus")
     
     print("dispatching cce...")
     _launch_cce(target_binary=target_binary)
@@ -84,6 +85,4 @@ def fuzz(input_corpus, output_corpus, target_binary):
     aflplusplus_fuzzer.fuzz(input_corpus,
                             output_corpus,
                             target_binary,
-                            flags=flags,
-                            no_cmplog=True)
-    print("BAUM2")
+                            flags=flags)
