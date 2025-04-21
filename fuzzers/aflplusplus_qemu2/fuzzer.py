@@ -55,4 +55,5 @@ def fuzz(input_corpus, output_corpus, target_binary):
     aflplusplus_fuzzer.fuzz(input_corpus,
                             output_corpus,
                             target_binary,
-                            flags=flags)
+                            flags=flags,
+                            no_cmplog=True)

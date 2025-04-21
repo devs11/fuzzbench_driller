@@ -41,3 +41,5 @@ RUN cd /afl && \
     make -C utils/aflpp_driver && \
     cp utils/aflpp_driver/libAFLQemuDriver.a /libAFLDriver.a && \
     cp utils/aflpp_driver/aflpp_qemu_driver_hook.so /
+
+RUN echo force_rebuild_again2
