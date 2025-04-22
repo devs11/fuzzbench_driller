@@ -69,11 +69,11 @@ def fuzz(input_corpus, output_corpus, target_binary):
     os.environ['AFL_QEMU_PERSISTENT_CNT'] = '1000000'
     os.environ['AFL_QEMU_DRIVER_NO_HOOK'] = '1'
 
-    # libpng alt corpus
-    # os.system("rm -rf /out/seeds/*")
-    # os.system("rm -rf /out/corpus/*")
-    # os.system("cp /src/benchmarks/libpng_libpng_read_fuzzer/seeds/seed.png /out/seeds/")
-    # os.system("ls -la /out && ls -la /out/seeds && ls -la /out/corpus")
+    # removing huge init corpus and replacing it with one file for better incremental coverage demonstration
+    os.system("rm -rf /out/seeds/*")
+    os.system("rm -rf /out/corpus/*")
+    os.system("cp /src/benchmarks/libxml2_xml/seeds/seed.xml /out/seeds/")
+    os.system("ls -la /out && ls -la /out/seeds && ls -la /out/corpus")
     
     print("dispatching cce...")
     _launch_cce(target_binary=target_binary)

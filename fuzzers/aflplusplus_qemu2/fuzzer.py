@@ -44,13 +44,11 @@ def fuzz(input_corpus, output_corpus, target_binary):
     os.environ['AFL_QEMU_PERSISTENT_CNT'] = '1000000'
     os.environ['AFL_QEMU_DRIVER_NO_HOOK'] = '1'
 
-    # removing the libpng-provided (build.sh) seeds, adding the fuzzbench provided seed
-    # I do not know why someone might want to use a volatile initial corpus derived from the libpng repository for benchmarking
-    # https://github.com/pnggroup/libpng/blob/34005e3d3d373c0c36898cc55eae48a79c8238a1/contrib/oss-fuzz/build.sh#L46
-    # os.system("rm -rf /out/seeds/*")
-    # os.system("rm -rf /out/corpus/*")
-    # os.system("cp /src/benchmarks/libpng_libpng_read_fuzzer/seeds/seed.png /out/seeds/")
-    # os.system("ls -la /out && ls -la /out/seeds && ls -la /out/corpus")
+    # removing huge init corpus and replacing it with one file for better incremental coverage demonstration
+    os.system("rm -rf /out/seeds/*")
+    os.system("rm -rf /out/corpus/*")
+    os.system("cp /src/benchmarks/libxml2_xml/seeds/seed.xml /out/seeds/")
+    os.system("ls -la /out && ls -la /out/seeds && ls -la /out/corpus")
 
     aflplusplus_fuzzer.fuzz(input_corpus,
                             output_corpus,
