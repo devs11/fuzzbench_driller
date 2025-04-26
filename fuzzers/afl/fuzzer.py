@@ -120,8 +120,8 @@ def run_afl_fuzz(input_corpus,
     if additional_flags:
         command.extend(additional_flags)
     dictionary_path = utils.get_dictionary_path(target_binary)
-    # if dictionary_path:
-    #     command.extend(['-x', dictionary_path])
+    if dictionary_path:
+        command.extend(['-x', dictionary_path])
     command += [
         '--',
         target_binary,
