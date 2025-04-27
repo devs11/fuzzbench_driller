@@ -43,7 +43,7 @@ def _launch_cfe(target_binary):
     with open(TAKS_NAME_FILE, "r") as f:
         task_name = f.read()
 
-    cmd = ["python", "/cftracer/fuzzing_engine/launch_fuzzer.py", "--output-dir", "/out/corpus/default/queue", "inject-dir",  "--corpus-dir", "/out/corpus/cftracer/queue", "--task-name-file", "/out/cftracer_task", "/out/seeds", "--external-fuzzer", "--redis-host", "redis", "--task", task_name]
+    cmd = ["python", "/cftracer/fuzzing_engine/launch_fuzzer.py", "--output-dir", "/out/corpus/default/queue", "--inject-dir", "/out/corpus/cftracer/queue", "--corpus-dir", "/out/seeds", "--task-name-file", "/out/cftracer_task", "--external-fuzzer", "--redis-host", "redis", "--task", task_name]
     return subprocess.Popen(cmd, close_fds=True)
     # with open(log_path, "w") as log_fh:
     #     return subprocess.Popen(cmd, stdout=log_fh, stderr=log_fh, close_fds=True)
