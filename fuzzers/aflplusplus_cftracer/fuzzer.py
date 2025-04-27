@@ -33,9 +33,9 @@ def _launch_cce(target_binary):
     cmd = ["python", "/cftracer/control_engine/dispatch_task.py", "--redis-host", "redis", "--stdin-input", target_binary]
     # cmd = ["python", "/cftracer/control_engine/dispatch_task.py", "--redis-host", "redis", "--input-file", target_binary]
     subprocess.Popen(["ls", "-l", "/"], close_fds=True)
-    return subprocess.Popen(cmd, close_fds=True)
-    # with open(log_path, "w") as log_fh:
-    #     return subprocess.Popen(cmd, stdout=log_fh, stderr=log_fh, close_fds=True)
+    # return subprocess.Popen(cmd, close_fds=True)
+    with open(log_path, "w") as log_fh:
+        return subprocess.Popen(cmd, stdout=log_fh, stderr=log_fh, close_fds=True)
     
 def _launch_cfe(target_binary):
     log_path = os.path.join("/tmp/experiment-data/", "cfe.log")
@@ -44,9 +44,9 @@ def _launch_cfe(target_binary):
         task_name = f.read()
 
     cmd = ["python", "/cftracer/fuzzing_engine/launch_fuzzer.py", "--output-dir", "/out/corpus/default/queue", "--inject-dir", "/out/corpus/cftracer/queue", "--corpus-dir", "/out/seeds", "--task-name-file", "/out/cftracer_task", "--external-fuzzer", "--redis-host", "redis", "--task", task_name]
-    return subprocess.Popen(cmd, close_fds=True)
-    # with open(log_path, "w") as log_fh:
-    #     return subprocess.Popen(cmd, stdout=log_fh, stderr=log_fh, close_fds=True)
+    # return subprocess.Popen(cmd, close_fds=True)
+    with open(log_path, "w") as log_fh:
+        return subprocess.Popen(cmd, stdout=log_fh, stderr=log_fh, close_fds=True)
     
 
 def fuzz(input_corpus, output_corpus, target_binary):
