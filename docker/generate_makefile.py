@@ -122,7 +122,7 @@ def get_rules_for_image(name, image):
     section += '\t--tag ' + os.path.join(BASE_TAG, image['tag']) + ' \\\n'
     # INSERT_WHO
     section += '\t--progress=plain' + ' \\\n'
-    section += '\t--no-cache' + ' \\\n'
+    # section += '\t--no-cache' + ' \\\n'
     section += '\t--build-arg BUILDKIT_INLINE_CACHE=1 \\\n'
     section += ('\t--cache-from ' + os.path.join(BASE_TAG, image['tag']) +
                 ' \\\n')
